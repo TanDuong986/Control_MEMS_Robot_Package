@@ -1,0 +1,30 @@
+<launch>
+
+    <!-- Arguments -->
+    <arg name="robot_namespace" default="/"/>
+
+    <!-- Controller Nodes -->
+    <node pkg="control_rb" type="Controller" name="Controller" output="screen">
+        <param name="publish_tf" value="false"/>
+    </node>
+    <node pkg="control_rb" type="mainCAN.py" name="mainControl" output="screen" />
+        
+        <!-- Real Robot Description -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find control_rb)/urdf/robot.urdf.xacro' robot_namespace:=$(arg robot_namespace)" />
+    <arg name="multi_robot_name" default=""/>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="tf_prefix" value="$(arg multi_robot_name)"/>
+    </node>
+
+    <node pkg="urg_node" type="urg_node" name="urg_node" output="screen">
+        <param name="ip_address" value="192.168.0.10" />
+        <param name="frame_id" value="laser" />
+        <param name="calibrate_time" value="false" />
+        <param name="publish_intensity" value="false" />
+        <param name="publish_multiecho" value="false" />
+        <param name="angle_min" value="-1.57" />
+        <param name="angle_max" value="1.57" />
+    </node>
+
+</launch>
