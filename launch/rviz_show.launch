@@ -1,0 +1,20 @@
+<launch>
+    <!-- Arguments -->
+    <arg name="robot_namespace" default="/"/>
+    <!-- Can change SLAM here -->
+    <!-- <include file="$(find control_rb)/launch/rviz_odometry.launch" /> -->
+
+        <!-- Real Robot Description -->
+    <!-- <param name="robot_description" command="$(find xacro)/xacro '$(find control_rb)/urdf/robot.urdf.xacro' robot_namespace:=$(arg robot_namespace)" />
+    <arg name="multi_robot_name" default=""/> -->
+
+    <!-- <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="tf_prefix" value="$(arg multi_robot_name)"/>
+    </node> -->
+
+    <!-- Open file config rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find control_rb)/rviz/guide_rb.rviz" />
+
+    <!-- Open control node -->
+    <node name="control_kb" pkg="control_rb" type="controlKeyboard.py" output="screen"/>
+</launch>
